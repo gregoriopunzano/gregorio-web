@@ -1,61 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
-<link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
-<link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
-<link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
-<link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
-<link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/manifest.json">
-<meta name="msapplication-TileColor" content="#ffffff">
-<meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
-<meta name="theme-color" content="#ffffff">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gregorio Punzano</title>
 
-  <!-- Importar fuente Space Mono de Google Fonts -->
+  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --bg-color: #000000;
+      --text-color: #ffffff;
+      --link-color: #1DA1F2;
+      --card-bg: #111111;
+      --card-shadow: rgba(0,0,0,0.5);
+    }
+
     body {
       font-family: 'Space Mono', monospace, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       line-height: 1.6;
-      margin: 60px;
+      margin: 0;
+      padding: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .container {
       max-width: 650px;
-      background-color: #ffffff;
-      color: #000000;
-      font-size: 1em;
+      margin: 0 auto;
     }
-    h1, p, a {
-      font-size: 1em;
-      font-weight: normal;
-      color: #000000;
-      text-decoration: none;
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
     }
-    a:hover {
-      text-decoration: underline;
-    }
-    p {
+
+    .card {
+      background-color: var(--card-bg);
+      padding: 15px 20px;
       margin-bottom: 15px;
+      border-radius: 15px;
+      box-shadow: 0 2px 10px var(--card-shadow);
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    p {
+      margin: 0;
+    }
+
+    a {
+      color: var(--link-color);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.2s, border-bottom 0.2s;
+    }
+
+    a:hover {
+      border-bottom: 1px solid var(--link-color);
+    }
+
+    /* Botón flotante minimalista */
+    .mode-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--text-color);
+      color: var(--bg-color);
+      border: none;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      font-size: 1.2em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      z-index: 1000;
+    }
+
+    /* Menú de opciones oculto por defecto */
+    .mode-options {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      z-index: 999;
+    }
+
+    .mode-option {
+      padding: 10px 15px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+
+    .mode-option:hover {
+      background: rgba(255,255,255,0.1);
+    }
+
+    /* Modo Claro */
+    body.light-mode {
+      --bg-color: #ffffff;
+      --text-color: #000000;
+      --link-color: #1a0dab;
+      --card-bg: #f9f9f9;
+      --card-shadow: rgba(0,0,0,0.2);
+    }
+
+    /* Modo Luxury */
+    body.luxury-mode {
+      --bg-color: #740101;
+      --text-color: #ffffff;
+      --link-color: #ffd700;
+      --card-bg: #a00000;
+      --card-shadow: rgba(0,0,0,0.4);
     }
   </style>
 </head>
 <body>
+  <button class="mode-toggle" onclick="toggleMenu()">☀</button>
+  <div class="mode-options" id="modeMenu">
+    <div class="mode-option" onclick="setMode('dark')">🌙 Dark</div>
+    <div class="mode-option" onclick="setMode('light')">☀ Light</div>
+    <div class="mode-option" onclick="setMode('luxury')">💎 Luxury</div>
+  </div>
+
+  <div class="container">
     <h1>Hello, I'm Gregorio Punzano</h1>
-    <p>I'm a serial entrepreneur, a 3x founder, and passionate about solving global challenges.</p>
-    <p>I have a deep love for knowledge and have been involved in DeFi and Bitcoin since 2021.</p>
-    <p>Currently, I'm the Founder of <a href="https://koryntia.com">Koryntia</a>.</p>
-    <p>If you want to get in touch, feel free to email me at <a href="mailto:gregoriopunzano1@gmail.com">gregoriopunzano1@gmail.com</a> or reach out on Telegram: <a href="https://t.me/gregoriopunzano">@gregoriopunzano</a>.</p>
-    <p>If you'd like to stay updated, subscribe to my <a href="https://gregoriopunzano.substack.com/">newsletter</a>, follow me on <a href="https://www.linkedin.com/in/gregorio-punzano">LinkedIn</a> or <a href="https://twitter.com/gregoriopunzano">X</a>, or check out my content on <a href="https://www.youtube.com/@gregoriopunzano?sub_confirmation=1">YouTube</a>.</p>
-    <p>You can also find all my social links, resources, and exclusive content here: <a href="https://linktr.ee/gregoriopunzano">Linktree</a>.</p>
+    
+    <div class="card">
+      <p>I'm a serial entrepreneur, a 3x founder, and passionate about solving global challenges.</p>
+    </div>
+
+    <div class="card">
+      <p>I have a deep love for knowledge and have been involved in DeFi and Bitcoin since 2021.</p>
+    </div>
+
+    <div class="card">
+      <p>Currently, I'm the Founder of <a href="https://koryntia.com" target="_blank">Koryntia</a>.</p>
+    </div>
+
+    <div class="card">
+      <p>If you want to get in touch, email me at <a href="mailto:gregoriopunzano1@gmail.com">gregoriopunzano1@gmail.com</a> or reach out on Telegram: <a href="https://t.me/gregoriopunzano" target="_blank">@gregoriopunzano</a>.</p>
+    </div>
+
+    <div class="card">
+      <p>If you'd like to stay updated, subscribe to my <a href="https://gregoriopunzano.substack.com/" target="_blank">newsletter</a>, follow me on <a href="https://www.linkedin.com/in/gregorio-punzano" target="_blank">LinkedIn</a> or <a href="https://twitter.com/gregoriopunzano" target="_blank">X</a>, or check out my content on <a href="https://www.youtube.com/@gregoriopunzano?sub_confirmation=1" target="_blank">YouTube</a>.</p>
+    </div>
+
+    <div class="card">
+      <p>You can also find all my social links, resources, and exclusive content here: <a href="https://linktr.ee/gregoriopunzano" target="_blank">Linktree</a>.</p>
+    </div>
+  </div>
+
+  <script>
+    const menu = document.getElementById('modeMenu');
+    const toggleBtn = document.querySelector('.mode-toggle');
+
+    function toggleMenu() {
+      menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function setMode(mode) {
+      document.body.classList.remove('light-mode', 'luxury-mode');
+      if(mode === 'light') document.body.classList.add('light-mode');
+      if(mode === 'luxury') document.body.classList.add('luxury-mode');
+      menu.style.display = 'none';
+    }
+
+    // Cerrar menú al hacer clic fuera
+    document.addEventListener('click', (e) => {
+      if (!menu.contains(e.target) && !toggleBtn.contains(e.target)) {
+        menu.style.display = 'none';
+      }
+    });
+
+    // Detectar modo preferido del sistema
+    window.addEventListener('load', () => {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+      if(prefersDark) {
+        setMode('dark');
+      } else if(prefersLight) {
+        setMode('light');
+      }
+    });
+  </script>
 </body>
 </html>
